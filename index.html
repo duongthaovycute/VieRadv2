@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="VieRad - website giới thiệu, tải APK và hướng dẫn sử dụng ứng dụng theo dõi bức xạ thời gian thực." />
+  <meta name="theme-color" content="#07111f" />
+  <title>VieRad - Theo dõi bức xạ thời gian thực</title>
+  <link rel="icon" type="image/png" href="favicon.png" />
+  <link rel="manifest" href="manifest.json" />
+  <link rel="preload" href="style.css?v=4.0.0" as="style" />
+  <link rel="stylesheet" href="style.css?v=4.0.0" />
+</head>
+<body>
+  <div class="site-bg" aria-hidden="true">
+    <span class="orb orb-a"></span>
+    <span class="orb orb-b"></span>
+    <span class="grid-glow"></span>
+  </div>
+
+  <header class="topbar" id="top">
+    <a class="brand" href="#top" aria-label="VieRad Home">
+      <img src="assets/vierad-icon.png" alt="VieRad icon" />
+      <span>
+        <strong>VieRad</strong>
+        <small>Radiation Monitor</small>
+      </span>
+    </a>
+
+    <nav class="nav" id="navMenu" aria-label="Điều hướng chính">
+      <a href="#download">Tải app</a>
+      <a href="#features">Tính năng</a>
+      <a href="#demo">Demo</a>
+      <a href="#guide">Hướng dẫn</a>
+      <a href="#about">Giới thiệu</a>
+    </nav>
+
+    <div class="top-actions">
+      <button class="icon-btn" id="themeToggle" type="button" aria-label="Đổi giao diện sáng tối">◐</button>
+      <button class="icon-btn menu-toggle" id="menuToggle" type="button" aria-label="Mở menu">☰</button>
+      <a class="download-mini" href="#download">Tải APK</a>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero section-pad">
+      <div class="hero-copy reveal">
+        <span class="eyebrow"><span class="pulse-dot"></span> Cập nhật thời gian thực • Nhiều trạm đo</span>
+        <h1>VIE RAD</h1>
+        <p class="lead">Website giới thiệu và tải ứng dụng VieRad: theo dõi suất liều phóng xạ, xem dữ liệu nhiều trạm, cảnh báo vượt ngưỡng, biểu đồ và xuất báo cáo.</p>
+        <div class="hero-actions">
+          <a class="btn btn-primary" id="heroDownload" href="#download">Tải app Android</a>
+          <a class="btn btn-ghost" href="#demo">Xem demo giao diện</a>
+        </div>
+        <div class="trust-row" aria-label="Thông tin nhanh">
+          <div><strong id="versionText">4.0.0</strong><span>Phiên bản</span></div>
+          <div><strong>API / BLE</strong><span>Kết nối</span></div>
+          <div><strong>PDF / CSV</strong><span>Báo cáo</span></div>
+        </div>
+      </div>
+
+      <div class="hero-visual reveal delay-1" aria-label="Mô phỏng giao diện VieRad">
+        <div class="phone-shell">
+          <div class="phone-status"><span>18:25</span><span>● ● ●</span></div>
+          <div class="phone-head">
+            <span>TỔNG QUAN</span>
+            <span class="globe">◎</span>
+          </div>
+          <div class="mini-metrics">
+            <span>🌡 <b id="heroTemp">31°C</b></span>
+            <span id="heroClock">18:25:13</span>
+            <span>💧 <b id="heroHumidity">57%</b></span>
+          </div>
+          <button class="dose-circle" id="doseCircle" type="button" aria-label="Bấm để đổi loại số liệu">
+            <span id="circleValue">0.40</span>
+            <small id="circleUnit">µSv/h</small>
+          </button>
+          <div class="station-picker">
+            <label for="stationSelect">Chọn trạm</label>
+            <select id="stationSelect"></select>
+          </div>
+          <div class="phone-note" id="phoneNote">Trạm đang hoạt động • Cập nhật 3 giây/lần</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="quick-panel reveal" aria-label="Thông tin trạng thái nhanh">
+      <article>
+        <span class="panel-icon">🟢</span>
+        <h3>Trạng thái rõ</h3>
+        <p>Màu vòng tròn và thẻ trạm đổi theo mức an toàn, chú ý hoặc cảnh báo.</p>
+      </article>
+      <article>
+        <span class="panel-icon">📈</span>
+        <h3>Biểu đồ trực quan</h3>
+        <p>Hiển thị dữ liệu theo thời gian, so sánh nhiều trạm và lịch sử cảnh báo.</p>
+      </article>
+      <article>
+        <span class="panel-icon">📦</span>
+        <h3>Tải app nhanh</h3>
+        <p>Nút tải APK đặt rõ ràng, dễ đổi link khi Bé Vy phát hành bản mới.</p>
+      </article>
+    </section>
+
+    <section class="section-pad two-col" id="download">
+      <div class="section-title reveal">
+        <span class="eyebrow">Download Center</span>
+        <h2>Tải VieRad Android</h2>
+        <p>Trang này dành để giới thiệu app và cho người dùng tải bản APK mới nhất. Link tải được tách riêng trong file <code>config.js</code> để sau này đổi rất nhanh.</p>
+      </div>
+      <div class="download-card reveal delay-1">
+        <div class="download-app">
+          <img src="assets/vierad-icon.png" alt="VieRad" />
+          <div>
+            <h3>VieRad APK</h3>
+            <p>Phiên bản <b id="downloadVersion">4.0.0</b> • Dung lượng <b id="apkSize">Đang cập nhật</b></p>
+          </div>
+        </div>
+        <a class="btn btn-primary btn-wide" id="apkDownload" href="#" download>Tải APK về điện thoại</a>
+        <div class="download-tools">
+          <button type="button" class="btn btn-soft" id="copyApk">Copy link tải</button>
+          <a class="btn btn-soft" id="openDemo" href="#" target="_blank" rel="noopener">Mở demo web</a>
+        </div>
+        <p class="hint">Nếu điện thoại báo “ứng dụng không rõ nguồn gốc”, hãy cho phép trình duyệt cài đặt APK trong phần Cài đặt bảo mật.</p>
+      </div>
+    </section>
+
+    <section class="section-pad" id="features">
+      <div class="section-title centered reveal">
+        <span class="eyebrow">Core Features</span>
+        <h2>Tính năng chính</h2>
+        <p>Giữ logic quen thuộc của app cũ nhưng trình bày rõ hơn, gọn hơn và chuyên nghiệp hơn.</p>
+      </div>
+      <div class="feature-grid">
+        <article class="feature-card reveal"><b>01</b><h3>Dashboard tối giản</h3><p>Vòng tròn lớn hiển thị số liệu chính. Bấm vào vòng tròn để chuyển giữa suất liều, CPS, CPM, Total, nhiệt độ và độ ẩm.</p></article>
+        <article class="feature-card reveal"><b>02</b><h3>Nhiều trạm đo</h3><p>Hiển thị từng trạm riêng, có trạng thái online, mất kết nối, nghỉ hoặc cảnh báo.</p></article>
+        <article class="feature-card reveal"><b>03</b><h3>Cảnh báo màu</h3><p>Đổi màu theo ngưỡng: bình thường, chú ý, cao và vượt ngưỡng. Người dùng nhìn màu là hiểu ngay.</p></article>
+        <article class="feature-card reveal"><b>04</b><h3>API / ReWES / Bluetooth</h3><p>Hỗ trợ lấy dữ liệu qua API, ReWES và Bluetooth LE. Có phần nhập URL hoặc cấu hình thiết bị.</p></article>
+        <article class="feature-card reveal"><b>05</b><h3>Biểu đồ phân tích</h3><p>Có biểu đồ theo thời gian cho từng trạm và biểu đồ tổng để so sánh nhiều nguồn dữ liệu.</p></article>
+        <article class="feature-card reveal"><b>06</b><h3>Xuất báo cáo</h3><p>Hỗ trợ xuất dữ liệu, tạo báo cáo và gửi qua email nếu người dùng đã đăng nhập.</p></article>
+        <article class="feature-card reveal"><b>07</b><h3>Cài đặt giao diện</h3><p>Đổi màu chủ đạo, sáng/tối, ngôn ngữ, ngưỡng cảnh báo và tốc độ cập nhật.</p></article>
+        <article class="feature-card reveal"><b>08</b><h3>Dễ bảo trì</h3><p>Web tách file cấu hình riêng nên đổi link APK, phiên bản, GitHub, email không cần sửa nhiều.</p></article>
+      </div>
+    </section>
+
+    <section class="section-pad demo-section" id="demo">
+      <div class="section-title reveal">
+        <span class="eyebrow">Live Preview</span>
+        <h2>Demo dữ liệu nhiều trạm</h2>
+        <p>Khung này mô phỏng cách web trình bày dữ liệu: rõ, sạch, có màu cảnh báo và biểu đồ để người xem hiểu app làm được gì.</p>
+      </div>
+      <div class="demo-grid">
+        <div class="station-board reveal" id="stationBoard"></div>
+        <div class="chart-card reveal delay-1">
+          <div class="chart-head">
+            <div>
+              <h3>Suất liều theo thời gian</h3>
+              <p>Dữ liệu demo để minh họa giao diện biểu đồ.</p>
+            </div>
+            <button class="btn btn-soft" id="randomizeChart" type="button">Làm mới</button>
+          </div>
+          <canvas id="doseChart" width="900" height="360" aria-label="Biểu đồ suất liều"></canvas>
+        </div>
+      </div>
+    </section>
+
+    <section class="section-pad interface-section">
+      <div class="section-title centered reveal">
+        <span class="eyebrow">App Flow</span>
+        <h2>Luồng giao diện đề xuất</h2>
+        <p>Các trang chính được chia rõ để trang đầu luôn nhẹ, đẹp và không bị rối.</p>
+      </div>
+      <div class="flow-grid">
+        <article class="flow-card reveal"><span>1</span><h3>Tổng quan</h3><p>Số liệu chính trong vòng tròn, chọn trạm, cảnh báo màu, thông tin phụ ở góc.</p></article>
+        <article class="flow-card reveal"><span>2</span><h3>Tất cả trạm</h3><p>Bảng nhiều trạm, lọc trạng thái, xem nhanh trạm nào đang cảnh báo hoặc mất kết nối.</p></article>
+        <article class="flow-card reveal"><span>3</span><h3>Biểu đồ</h3><p>Biểu đồ từng trạm và biểu đồ tổng để theo dõi xu hướng dữ liệu.</p></article>
+        <article class="flow-card reveal"><span>4</span><h3>Kết nối</h3><p>Cấu hình API, ReWES, Bluetooth LE và custom endpoint.</p></article>
+        <article class="flow-card reveal"><span>5</span><h3>Báo cáo</h3><p>Xuất CSV/PDF, copy báo cáo, gửi email khi đã đăng nhập.</p></article>
+        <article class="flow-card reveal"><span>6</span><h3>Cài đặt</h3><p>Đổi màu, dark mode, ngưỡng cảnh báo, ngôn ngữ và thông tin app.</p></article>
+      </div>
+    </section>
+
+    <section class="section-pad guide" id="guide">
+      <div class="section-title reveal">
+        <span class="eyebrow">User Guide</span>
+        <h2>Hướng dẫn sử dụng nhanh</h2>
+      </div>
+      <div class="timeline reveal delay-1">
+        <div><b>01</b><h3>Tải APK</h3><p>Bấm “Tải APK về điện thoại” ở khu vực Download Center.</p></div>
+        <div><b>02</b><h3>Cài đặt</h3><p>Mở file APK vừa tải. Nếu bị chặn, bật quyền cài app từ trình duyệt.</p></div>
+        <div><b>03</b><h3>Chọn trạm</h3><p>Vào Tổng quan, chọn trạm cần theo dõi hoặc cấu hình API/Bluetooth.</p></div>
+        <div><b>04</b><h3>Theo dõi cảnh báo</h3><p>Quan sát màu vòng tròn và trạng thái trạm để biết mức dữ liệu hiện tại.</p></div>
+        <div><b>05</b><h3>Xem biểu đồ</h3><p>Mở trang Biểu đồ để xem xu hướng theo thời gian và so sánh nhiều trạm.</p></div>
+        <div><b>06</b><h3>Xuất báo cáo</h3><p>Chọn khoảng thời gian, loại dữ liệu và xuất báo cáo khi cần lưu trữ.</p></div>
+      </div>
+    </section>
+
+    <section class="section-pad release-section">
+      <div class="section-title reveal">
+        <span class="eyebrow">Version</span>
+        <h2>Lịch sử phiên bản</h2>
+      </div>
+      <div class="release-card reveal delay-1">
+        <div class="release-badge">v<span id="releaseVersion">4.0.0</span></div>
+        <div>
+          <h3>VieRad UI nâng cấp</h3>
+          <ul>
+            <li>Giao diện trang đầu tối giản, số liệu chính đặt ở trung tâm.</li>
+            <li>Thêm phân khu dữ liệu nhiều trạm, biểu đồ, báo cáo và kết nối.</li>
+            <li>Tối ưu chữ tiếng Việt, giảm tràn chữ và dễ dùng trên điện thoại.</li>
+            <li>Website tải app có cấu hình riêng, dễ đổi link APK sau này.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="section-pad faq-section">
+      <div class="section-title centered reveal">
+        <span class="eyebrow">FAQ</span>
+        <h2>Câu hỏi thường gặp</h2>
+      </div>
+      <div class="faq-list reveal delay-1">
+        <details open>
+          <summary>Web này có phải app không?</summary>
+          <p>Không. Đây là website giới thiệu, hướng dẫn và cho tải APK. App chính vẫn là VieRad cài trên điện thoại Android.</p>
+        </details>
+        <details>
+          <summary>Sau này đổi link APK ở đâu?</summary>
+          <p>Mở file <code>config.js</code>, sửa dòng <code>apkUrl</code>, rồi upload lại lên GitHub Pages.</p>
+        </details>
+        <details>
+          <summary>Có thể gắn API thật lên web không?</summary>
+          <p>Có. Web hiện có phần demo. Sau này có thể nối API thật để hiển thị số liệu trực tiếp ngay trên website.</p>
+        </details>
+        <details>
+          <summary>Web có bị cache link cũ không?</summary>
+          <p>Bản này tách cấu hình và có version query ở CSS/JS để giảm lỗi cache. Khi đổi lớn, nên đổi số version trong link file.</p>
+        </details>
+      </div>
+    </section>
+
+    <section class="section-pad about" id="about">
+      <div class="about-card reveal">
+        <img src="assets/vierad-icon.png" alt="VieRad logo" />
+        <div>
+          <span class="eyebrow">About</span>
+          <h2>Giới thiệu VieRad</h2>
+          <p>VieRad là ứng dụng hỗ trợ theo dõi dữ liệu bức xạ thời gian thực, tập trung vào cách hiển thị trực quan, cảnh báo dễ hiểu và khả năng tổng hợp dữ liệu từ nhiều trạm.</p>
+          <p><b>Người phát triển:</b> <span id="developerName">Dương Thảo Vy</span></p>
+          <div class="about-actions">
+            <a class="btn btn-primary" id="githubLink" href="#" target="_blank" rel="noopener">Xem GitHub</a>
+            <a class="btn btn-ghost" id="emailLink" href="#">Liên hệ</a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <p>© <span id="yearText"></span> VieRad. Designed for a clean, readable and professional monitoring experience.</p>
+    <a href="#top">Lên đầu ↑</a>
+  </footer>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script src="config.js?v=4.0.0"></script>
+  <script src="script.js?v=4.0.0"></script>
+</body>
+</html>
