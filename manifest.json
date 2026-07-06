@@ -6,6 +6,6 @@
   "background_color": "#07111f",
   "theme_color": "#07111f",
   "icons": [
-    { "src": "assets/vierad-icon.png", "sizes": "512x512", "type": "image/png" }
+    { "src": "vierad-icon.png", "sizes": "512x512", "type": "image/png" }
   ]
 }
