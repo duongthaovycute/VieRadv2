@@ -54,3 +54,7 @@ https://duongthaovycute.github.io/VieRad-Web/
 - Web này không dùng Flutter nên nhẹ, dễ sửa và không cần build.
 - Không dùng service worker để tránh lỗi cache bản cũ.
 - Khi đổi lớn file CSS/JS, có thể đổi `?v=4.0.0` trong `index.html` thành số mới để trình duyệt lấy bản mới.
+
+
+## Bản FIX_IMAGE
+Logo trên thanh đầu, khu tải APK và giới thiệu đã đổi sang icon CSS nội tuyến nên không còn lỗi ảnh bị vỡ nếu thiếu thư mục assets. Vẫn giữ favicon và assets để dùng khi cần.
