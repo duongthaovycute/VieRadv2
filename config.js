@@ -72,13 +72,13 @@ window.VIERAD_CONFIG = {
   historyRefreshSeconds: 15,
 
   apkPath:
-    "https://github.com/duongthaovycute/VieRad3.3/releases/download/v4.1.0/VieRad.apk",
+    "https://github.com/duongthaovycute/VieRadv2/releases/download/v4.1.0/VieRad.apk",
   apkUrl:
-    "https://github.com/duongthaovycute/VieRad3.3/releases/download/v4.1.0/VieRad.apk",
+    "https://github.com/duongthaovycute/VieRadv2/releases/download/v4.1.0/VieRad.apk",
   apkVersion: "v4.1.0",
   apkSize: "77,9 MB",
 
-  webDemoUrl: "https://duongthaovycute.github.io/VieRadv1/",
+  webDemoUrl: "https://duongthaovycute.github.io/VieRadv2/",
   githubUrl: "https://github.com/duongthaovycute",
   contactEmail: "thaovy.tyty@gmail.com",
   developer: "Dương Thảo Vy",
