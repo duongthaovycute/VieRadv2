@@ -1,9 +1,7 @@
-```js
 window.VIERAD_CONFIG = {
-  /*
-   * CẤU HÌNH CHUNG
-   */
-  defaultStation: "station_1",
+  version: "4.1.0",
+
+  defaultStation: "new_station",
   maxHistoryPoints: 2000,
 
   thresholds: {
@@ -12,25 +10,13 @@ window.VIERAD_CONFIG = {
     danger: 4.0
   },
 
-  /*
-   * CẤU HÌNH RIÊNG CHO TỪNG TRẠM
-   *
-   * Trạm 1:
-   * - latestApiUrl: lấy số liệu mới nhất
-   * - historyApiUrl: lấy dữ liệu lịch sử để vẽ biểu đồ
-   *
-   * Mỗi trạm có refreshSeconds riêng để tránh gọi API
-   * quá dày và giúp web chạy ổn định hơn.
-   */
   stations: [
     {
-      stationId: "station_1",
-
-      stationNameVi: "Trạm 1",
-      stationNameEn: "Station 1",
-
-      stationAddressVi: "Trạm giám sát bức xạ VieRad",
-      stationAddressEn: "VieRad Radiation Monitoring Station",
+      id: "new_station",
+      name: "Trạm NEW",
+      nameEn: "NEW Station",
+      address: "Trạm giám sát bức xạ VieRad",
+      addressEn: "VieRad Radiation Monitoring Station",
 
       latestApiUrl:
         "https://ql4drki257.execute-api.ap-southeast-2.amazonaws.com/prod/latest",
@@ -40,57 +26,43 @@ window.VIERAD_CONFIG = {
 
       refreshSeconds: 5,
       historyRefreshSeconds: 15,
-
       enabled: true
     },
 
     {
-      stationId: "station_3",
-
-      stationNameVi: "Trạm 2",
-      stationNameEn: "Station 2",
-
-      stationAddressVi: "Trạm giám sát bức xạ 2",
-      stationAddressEn: "Radiation Monitoring Station 2",
+      id: "station_03",
+      name: "Trạm 2",
+      nameEn: "Station 2",
+      address: "Trạm giám sát bức xạ 2",
+      addressEn: "Radiation Monitoring Station 2",
 
       latestApiUrl:
         "https://z2c6um5ew3.execute-api.ap-southeast-1.amazonaws.com/data?station=station_03",
 
       historyApiUrl: "",
-
       refreshSeconds: 3,
       historyRefreshSeconds: 15,
-
       enabled: true
     },
 
     {
-      stationId: "station_04",
-
-      stationNameVi: "Trạm 3",
-      stationNameEn: "Station 3",
-
-      stationAddressVi: "Trạm giám sát bức xạ 3",
-      stationAddressEn: "Radiation Monitoring Station 3",
+      id: "station_04",
+      name: "Trạm 3",
+      nameEn: "Station 3",
+      address: "Trạm giám sát bức xạ 3",
+      addressEn: "Radiation Monitoring Station 3",
 
       latestApiUrl:
         "https://z2c6um5ew3.execute-api.ap-southeast-1.amazonaws.com/data?station=station_04",
 
       historyApiUrl: "",
-
       refreshSeconds: 6,
       historyRefreshSeconds: 20,
-
       enabled: true
     }
   ],
 
-  /*
-   * GIỮ TƯƠNG THÍCH VỚI CODE WEB CŨ
-   *
-   * Nếu script.js cũ vẫn đọc apiUrl, stationId,
-   * stationNameVi... thì Trạm 1 vẫn chạy bình thường.
-   */
+  // Giữ các khóa cũ để code cũ vẫn đọc được Trạm NEW.
   apiUrl:
     "https://ql4drki257.execute-api.ap-southeast-2.amazonaws.com/prod/latest",
 
@@ -101,25 +73,26 @@ window.VIERAD_CONFIG = {
     "https://ql4drki257.execute-api.ap-southeast-2.amazonaws.com/prod/history",
 
   stationId: "new_station",
-
-  stationNameVi: "Trạm 1",
-  stationNameEn: "Station 1",
-
+  stationNameVi: "Trạm NEW",
+  stationNameEn: "NEW Station",
   stationAddressVi: "Trạm giám sát bức xạ VieRad",
   stationAddressEn: "VieRad Radiation Monitoring Station",
-
   refreshSeconds: 5,
   historyRefreshSeconds: 15,
 
-  /*
-   * APK MỚI NHẤT
-   */
   apkPath:
     "https://github.com/duongthaovycute/VieRad3.3/releases/download/v4.1.0/VieRad.apk",
 
+  apkUrl:
+    "https://github.com/duongthaovycute/VieRad3.3/releases/download/v4.1.0/VieRad.apk",
+
   apkVersion: "v4.1.0",
+  apkSize: "77,9 MB",
+
+  webDemoUrl: "https://duongthaovycute.github.io/VieRadv1/",
+  githubUrl: "https://github.com/duongthaovycute",
+  contactEmail: "thaovy.tyty@gmail.com",
 
   developer: "Dương Thảo Vy",
   organization: "HCMUS"
 };
-```
