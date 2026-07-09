@@ -77,14 +77,34 @@
     return Number.isFinite(number) ? number : null;
   }
 
+  function foldKey(input) {
+    return String(input ?? "")
+      .normalize("NFD")
+      .replace(/[\u0300-\u036f]/g, "")
+      .toLowerCase()
+      .replace(/[^a-z0-9]/g, "");
+  }
+
+  function makeFoldedIndex(object) {
+    const index = new Map();
+    if (!object || typeof object !== "object" || Array.isArray(object)) {
+      return index;
+    }
+
+    Object.entries(object).forEach(([key, value]) => {
+      index.set(foldKey(key), value);
+    });
+
+    return index;
+  }
+
   function firstNumber(object, keys) {
     if (!object || typeof object !== "object") return null;
 
+    const index = makeFoldedIndex(object);
     for (const key of keys) {
-      if (Object.prototype.hasOwnProperty.call(object, key)) {
-        const value = toFiniteNumber(object[key]);
-        if (value !== null) return value;
-      }
+      const value = toFiniteNumber(index.get(foldKey(key)));
+      if (value !== null) return value;
     }
 
     return null;
@@ -93,14 +113,11 @@
   function firstValue(object, keys) {
     if (!object || typeof object !== "object") return null;
 
+    const index = makeFoldedIndex(object);
     for (const key of keys) {
-      if (
-        Object.prototype.hasOwnProperty.call(object, key) &&
-        object[key] !== null &&
-        object[key] !== undefined &&
-        object[key] !== ""
-      ) {
-        return object[key];
+      const value = index.get(foldKey(key));
+      if (value !== null && value !== undefined && String(value).trim() !== "") {
+        return value;
       }
     }
 
@@ -164,22 +181,16 @@
       return false;
     }
 
-    const keys = Object.keys(object).map((key) => key.toLowerCase());
-    return keys.some((key) =>
-      [
-        "dose",
-        "doserate",
-        "dose_rate",
-        "usvh",
-        "usv_h",
-        "cps",
-        "cpm",
-        "count",
-        "counts",
-        "temperature",
-        "humidity"
-      ].includes(key)
-    );
+    const keys = Object.keys(object).map(foldKey);
+    const measurementKeys = [
+      "dose_i", "dose", "dose_avg", "dose_rate", "doseRate",
+      "doseRate_uSv_h", "dose_rate_uSv_h", "dose_usv_h",
+      "uSv", "uSv_h", "usv_h", "cps_i", "cps", "cps_avg",
+      "cpm_i", "cpm", "cpm_avg", "total_counts", "total_count",
+      "counts", "count"
+    ].map(foldKey);
+
+    return measurementKeys.some((key) => keys.includes(key));
   }
 
   function findMeasurement(payload, depth = 0) {
@@ -270,7 +281,9 @@
     if (!object || typeof object !== "object") return null;
 
     const dose = firstNumber(object, [
+      "dose_i",
       "dose",
+      "dose_avg",
       "doseRate",
       "dose_rate",
       "dose_rate_usvh",
@@ -284,7 +297,9 @@
     ]);
 
     const cps = firstNumber(object, [
+      "cps_i",
       "cps",
+      "cps_avg",
       "CPS",
       "countPerSecond",
       "countsPerSecond",
@@ -293,13 +308,17 @@
     ]);
 
     const cpm = firstNumber(object, [
+      "cpm_i",
       "cpm",
+      "cpm_avg",
       "CPM",
       "countPerMinute",
       "countsPerMinute"
     ]);
 
     const total = firstNumber(object, [
+      "total_counts",
+      "total_count",
       "total",
       "totalCount",
       "totalCounts",
@@ -309,6 +328,7 @@
 
     const temp = firstNumber(object, [
       "temp",
+      "tempC",
       "temperature",
       "Temperature",
       "temperatureC"
@@ -316,6 +336,7 @@
 
     const humidity = firstNumber(object, [
       "humidity",
+      "humi",
       "Humidity",
       "rh",
       "relativeHumidity"
@@ -324,6 +345,8 @@
     const timestampValue = firstValue(object, [
       "timestamp",
       "time",
+      "date",
+      "realtime",
       "datetime",
       "dateTime",
       "createdAt",
@@ -446,23 +469,15 @@
     const timeout = setTimeout(() => controller.abort(), timeoutMs);
 
     try {
-      const separator = url.includes("?") ? "&" : "?";
-      const response = await fetch(
-        `${url}${separator}_=${Date.now()}`,
-        {
-          method: "GET",
-          mode: "cors",
-          cache: "no-store",
-          headers: {
-            Accept: "application/json"
-          },
-          signal: controller.signal
-        }
-      );
+      const response = await fetch(url, {
+        method: "GET",
+        mode: "cors",
+        cache: "no-store",
+        headers: { Accept: "application/json" },
+        signal: controller.signal
+      });
 
-      if (!response.ok) {
-        throw new Error(`HTTP ${response.status}`);
-      }
+      if (!response.ok) throw new Error(`HTTP ${response.status}`);
 
       const text = await response.text();
       if (!text.trim()) throw new Error("API không trả dữ liệu");
@@ -477,6 +492,30 @@
     }
   }
 
+  function applyHistoryFromPayload(station, payload) {
+    const rawMeasurements = collectMeasurements(payload);
+    const history = rawMeasurements
+      .map(normaliseMeasurement)
+      .filter(
+        (measurement) =>
+          measurement &&
+          measurement.dose !== null &&
+          measurement.dose !== undefined
+      )
+      .map((measurement, index) => ({
+        dose: measurement.dose,
+        timestamp:
+          measurement.timestamp ||
+          new Date(Date.now() - (rawMeasurements.length - index) * 1000)
+      }))
+      .sort((a, b) => a.timestamp - b.timestamp);
+
+    if (!history.length) return;
+
+    const limit = Math.max(10, Number(config.maxHistoryPoints) || 2000);
+    station.history = history.slice(-limit);
+  }
+
   async function refreshLatest(station, manual = false) {
     if (!station || station.latestBusy || !station.latestApiUrl) return;
     if (document.hidden && !manual) return;
@@ -485,6 +524,14 @@
 
     try {
       const payload = await fetchJson(station.latestApiUrl);
+
+      if (
+        station.historyFromLatest === true ||
+        station.latestApiUrl === station.historyApiUrl
+      ) {
+        applyHistoryFromPayload(station, payload);
+      }
+
       const measurement = normaliseMeasurement(payload);
 
       if (!measurement) {
@@ -520,28 +567,7 @@
 
     try {
       const payload = await fetchJson(station.historyApiUrl, 18000);
-      const rawMeasurements = collectMeasurements(payload);
-
-      const history = rawMeasurements
-        .map(normaliseMeasurement)
-        .filter(
-          (measurement) =>
-            measurement &&
-            measurement.dose !== null &&
-            measurement.dose !== undefined
-        )
-        .map((measurement, index) => ({
-          dose: measurement.dose,
-          timestamp:
-            measurement.timestamp ||
-            new Date(Date.now() - (rawMeasurements.length - index) * 1000)
-        }))
-        .sort((a, b) => a.timestamp - b.timestamp);
-
-      const limit = Math.max(10, Number(config.maxHistoryPoints) || 2000);
-      if (history.length) {
-        station.history = history.slice(-limit);
-      }
+      applyHistoryFromPayload(station, payload);
     } catch (error) {
       console.error(`[VieRad history] ${station.name}:`, error);
     } finally {
@@ -562,7 +588,11 @@
 
   function scheduleHistory(station) {
     clearTimeout(station.historyTimer);
-    if (!station.historyApiUrl) return;
+    if (
+      !station.historyApiUrl ||
+      station.historyApiUrl === station.latestApiUrl ||
+      station.historyFromLatest === true
+    ) return;
 
     const seconds = Math.max(
       10,
@@ -1046,7 +1076,12 @@
 
     await Promise.all(
       stations
-        .filter((station) => station.historyApiUrl)
+        .filter(
+          (station) =>
+            station.historyApiUrl &&
+            station.historyApiUrl !== station.latestApiUrl &&
+            station.historyFromLatest !== true
+        )
         .map((station) => refreshHistory(station, true))
     );
 
