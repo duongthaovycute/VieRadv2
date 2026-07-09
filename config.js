@@ -4,8 +4,8 @@
 */
 window.VIERAD_CONFIG = {
   appName: 'VieRad',
-  version: '4.0.0',
-  apkUrl: 'https://github.com/duongthaovycute/VieRad3.3/releases/download/v3.8.0/VieRad.apk',
+  version: '4.1.0',
+  apkUrl: 'https://github.com/duongthaovycute/VieRad3.3/releases/download/v4.1.0/VieRad.apk',
   webDemoUrl: 'https://duongthaovycute.github.io/VieRad3.3/',
   githubUrl: 'https://github.com/duongthaovycute',
   developer: 'Dương Thảo Vy',
