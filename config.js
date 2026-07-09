@@ -1,26 +1,125 @@
-/*
-  VieRad Website Config
-  Bé Vy chỉ cần sửa file này khi đổi link tải, phiên bản, GitHub hoặc web demo.
-*/
+```js
 window.VIERAD_CONFIG = {
-  appName: 'VieRad',
-  version: '4.1.0',
-  apkUrl: 'https://github.com/duongthaovycute/VieRad3.3/releases/download/v4.1.0/VieRad.apk',
-  webDemoUrl: 'https://duongthaovycute.github.io/VieRad3.3/',
-  githubUrl: 'https://github.com/duongthaovycute',
-  developer: 'Dương Thảo Vy',
-  contactEmail: 'thaovy.tyty@gmail.com',
-  lastUpdated: '06/07/2026',
-  apkSize: 'Đang cập nhật',
-  defaultStation: 'station_01',
-  safeLimit: 0.57,
-  stationData: [
-    { id: 'station_01', name: 'Trạm 1', dose: 0.40, cps: 7, cpm: 420, total: 275000, temp: 31, humidity: 57, status: 'online' },
-    { id: 'station_02', name: 'Trạm 2', dose: 0.08, cps: 2, cpm: 120, total: 80430, temp: 30, humidity: 61, status: 'online' },
-    { id: 'station_03', name: 'Trạm 3', dose: 0.12, cps: 3, cpm: 180, total: 101920, temp: 30, humidity: 58, status: 'online' },
-    { id: 'station_04', name: 'Trạm 4', dose: 0.61, cps: 11, cpm: 660, total: 381240, temp: 32, humidity: 63, status: 'warning' },
-    { id: 'station_05', name: 'Trạm 5', dose: 0.00, cps: 0, cpm: 0, total: 0, temp: null, humidity: null, status: 'idle' },
-    { id: 'rewes', name: 'ReWES', dose: 0.13, cps: 3, cpm: 192, total: 194000, temp: 29, humidity: 62, status: 'online' },
-    { id: 'bluetooth', name: 'Bluetooth LE', dose: null, cps: null, cpm: null, total: null, temp: null, humidity: null, status: 'offline' }
-  ]
+  /*
+   * CẤU HÌNH CHUNG
+   */
+  defaultStation: "new_station",
+  maxHistoryPoints: 2000,
+
+  thresholds: {
+    caution: 0.5,
+    warning: 1.0,
+    danger: 4.0
+  },
+
+  /*
+   * CẤU HÌNH RIÊNG CHO TỪNG TRẠM
+   *
+   * Trạm 1:
+   * - latestApiUrl: lấy số liệu mới nhất
+   * - historyApiUrl: lấy dữ liệu lịch sử để vẽ biểu đồ
+   *
+   * Mỗi trạm có refreshSeconds riêng để tránh gọi API
+   * quá dày và giúp web chạy ổn định hơn.
+   */
+  stations: [
+    {
+      stationId: "new_station",
+
+      stationNameVi: "Trạm NEW",
+      stationNameEn: "NEW Station",
+
+      stationAddressVi: "Trạm giám sát bức xạ VieRad",
+      stationAddressEn: "VieRad Radiation Monitoring Station",
+
+      latestApiUrl:
+        "https://ql4drki257.execute-api.ap-southeast-2.amazonaws.com/prod/latest",
+
+      historyApiUrl:
+        "https://ql4drki257.execute-api.ap-southeast-2.amazonaws.com/prod/history",
+
+      refreshSeconds: 5,
+      historyRefreshSeconds: 15,
+
+      enabled: true
+    },
+
+    {
+      stationId: "station_03",
+
+      stationNameVi: "Trạm 2",
+      stationNameEn: "Station 2",
+
+      stationAddressVi: "Trạm giám sát bức xạ 2",
+      stationAddressEn: "Radiation Monitoring Station 2",
+
+      latestApiUrl:
+        "https://z2c6um5ew3.execute-api.ap-southeast-1.amazonaws.com/data?station=station_03",
+
+      historyApiUrl: "",
+
+      refreshSeconds: 3,
+      historyRefreshSeconds: 15,
+
+      enabled: true
+    },
+
+    {
+      stationId: "station_04",
+
+      stationNameVi: "Trạm 3",
+      stationNameEn: "Station 3",
+
+      stationAddressVi: "Trạm giám sát bức xạ 3",
+      stationAddressEn: "Radiation Monitoring Station 3",
+
+      latestApiUrl:
+        "https://z2c6um5ew3.execute-api.ap-southeast-1.amazonaws.com/data?station=station_04",
+
+      historyApiUrl: "",
+
+      refreshSeconds: 6,
+      historyRefreshSeconds: 20,
+
+      enabled: true
+    }
+  ],
+
+  /*
+   * GIỮ TƯƠNG THÍCH VỚI CODE WEB CŨ
+   *
+   * Nếu script.js cũ vẫn đọc apiUrl, stationId,
+   * stationNameVi... thì Trạm 1 vẫn chạy bình thường.
+   */
+  apiUrl:
+    "https://ql4drki257.execute-api.ap-southeast-2.amazonaws.com/prod/latest",
+
+  latestApiUrl:
+    "https://ql4drki257.execute-api.ap-southeast-2.amazonaws.com/prod/latest",
+
+  historyApiUrl:
+    "https://ql4drki257.execute-api.ap-southeast-2.amazonaws.com/prod/history",
+
+  stationId: "new_station",
+
+  stationNameVi: "Trạm NEW",
+  stationNameEn: "NEW Station",
+
+  stationAddressVi: "Trạm giám sát bức xạ VieRad",
+  stationAddressEn: "VieRad Radiation Monitoring Station",
+
+  refreshSeconds: 5,
+  historyRefreshSeconds: 15,
+
+  /*
+   * APK MỚI NHẤT
+   */
+  apkPath:
+    "https://github.com/duongthaovycute/VieRad3.3/releases/download/v4.1.0/VieRad.apk",
+
+  apkVersion: "v4.1.0",
+
+  developer: "Dương Thảo Vy",
+  organization: "HCMUS"
 };
+```
