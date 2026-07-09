@@ -12,9 +12,9 @@ window.VIERAD_CONFIG = {
 
   stations: [
     {
-      id: "new_station",
-      name: "Trạm NEW",
-      nameEn: "NEW Station",
+      id: "station_1",
+      name: "Trạm 1",
+      nameEn: "Station 1",
       address: "Trạm giám sát bức xạ VieRad",
       addressEn: "VieRad Radiation Monitoring Station",
 
@@ -72,9 +72,9 @@ window.VIERAD_CONFIG = {
   historyApiUrl:
     "https://ql4drki257.execute-api.ap-southeast-2.amazonaws.com/prod/history",
 
-  stationId: "new_station",
-  stationNameVi: "Trạm NEW",
-  stationNameEn: "NEW Station",
+  stationId: "station_1",
+  stationNameVi: "Trạm 1",
+  stationNameEn: "Station 1",
   stationAddressVi: "Trạm giám sát bức xạ VieRad",
   stationAddressEn: "VieRad Radiation Monitoring Station",
   refreshSeconds: 5,
