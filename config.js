@@ -3,7 +3,7 @@ window.VIERAD_CONFIG = {
   /*
    * CẤU HÌNH CHUNG
    */
-  defaultStation: "new_station",
+  defaultStation: "station_1",
   maxHistoryPoints: 2000,
 
   thresholds: {
@@ -24,10 +24,10 @@ window.VIERAD_CONFIG = {
    */
   stations: [
     {
-      stationId: "new_station",
+      stationId: "station_1",
 
-      stationNameVi: "Trạm NEW",
-      stationNameEn: "NEW Station",
+      stationNameVi: "Trạm 1",
+      stationNameEn: "Station 1",
 
       stationAddressVi: "Trạm giám sát bức xạ VieRad",
       stationAddressEn: "VieRad Radiation Monitoring Station",
@@ -45,7 +45,7 @@ window.VIERAD_CONFIG = {
     },
 
     {
-      stationId: "station_03",
+      stationId: "station_3",
 
       stationNameVi: "Trạm 2",
       stationNameEn: "Station 2",
@@ -102,8 +102,8 @@ window.VIERAD_CONFIG = {
 
   stationId: "new_station",
 
-  stationNameVi: "Trạm NEW",
-  stationNameEn: "NEW Station",
+  stationNameVi: "Trạm 1",
+  stationNameEn: "Station 1",
 
   stationAddressVi: "Trạm giám sát bức xạ VieRad",
   stationAddressEn: "VieRad Radiation Monitoring Station",
